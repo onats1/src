@@ -1,10 +1,14 @@
 from django.shortcuts import render
 
+
 # Create your views here.
+from account.models import Account
+
 
 def home_screen_view(request):
 
     context = {}
-    context['some_string'] = "This string was added through the context."
+    accounts = Account.objects.all()
+    context['accounts'] = accounts
 
     return render(request, "personal/home.html", context)
