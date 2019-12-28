@@ -38,12 +38,19 @@
             text-align: center;
         }
 
+        .blog-posts{
+            max-width: 500px;
+            width: 100%;
+            margin: auto;
+        }
+
     </style>
 
     <form class="form-signin" method="post">{% csrf_token %}
 
         <div class="d-flex flex-column">
-            <img class="img-fluid mx-auto d-block" src="{% static 'settings.PNG' %}" alt="settings logo" width="50px" height="50px">
+            <img class="img-fluid mx-auto d-block" src="{% static 'settings.PNG' %}" alt="settings logo" width="50px"
+                 height="50px">
         </div>
 
         <h1 class="h3 mb-3 font-weight-normal">Account</h1>
@@ -78,6 +85,27 @@
 
     <div class="d-flex flex-column">
         <a class="m-auto" href="{% url 'password_change' %} ">Change Password</a>
+    </div>
+
+    <div class="container mt-4 p-4">
+        <div class="row">
+            <div class="blog-posts">
+                <h3 class="mb-3 font-weight-normal">Blog Posts:</h3>
+                {% if blog_posts %}
+                    <ul>
+                        {% for post in blog_posts %}
+                            <a href="{% url 'blog:detail' post.slug %}" style="text-decoration: none">
+                                <li class="list-group-item">{{ post }}</li>
+                            </a>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+
+                    <p>You have no blog posts yet. <a href="{% url 'blog:create' %}">Create one now</a></p>
+
+                {% endif %}
+            </div>
+        </div>
     </div>
 
 {% endblock content %}
