@@ -13,12 +13,13 @@ def home_screen_view(request):
     context = {}
 
     query = ""
-    if request.GET:
-        query = request.GET.get('q', '')
-        context['query'] = str(query)
+    query = request.GET.get('q', '')
+    context['query'] = str(query)
+    print("home_screen_view: " + str(query))
 
     blog_posts = sorted(get_blog_queryset(query), key=attrgetter('date_updated'), reverse=True)
 
+    # Pagination
     page = request.GET.get('page', 1)
     blog_posts_paginator = Paginator(blog_posts, BLOG_POSTS_PER_PAGE)
 
@@ -30,4 +31,5 @@ def home_screen_view(request):
         blog_posts = blog_posts_paginator.page(blog_posts_paginator.num_pages)
 
     context['blog_posts'] = blog_posts
+
     return render(request, "personal/home.html", context)
